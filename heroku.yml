@@ -5,7 +5,6 @@ setup:
 build:
   docker:
     web: Dockerfile
-    worker: worker/Dockerfile
   config:
     APP_NAME: TaskManager
     APP_ENV: local
