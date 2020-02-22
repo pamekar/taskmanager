@@ -17,14 +17,3 @@ build:
     DB_DATABASE: task_manager
     DB_USERNAME: develop
     DB_PASSWORD: develop
-release:
-  command:
-    - ./deployment-tasks.sh
-  image: worker
-run:
-  web: bundle exec puma -C config/puma.rb
-  worker: python myworker.py
-  asset-syncer:
-    command:
-      - python asset-syncer.py
-    image: worker
