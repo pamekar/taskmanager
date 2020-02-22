@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl
-    nano
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
