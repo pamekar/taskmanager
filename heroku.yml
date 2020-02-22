@@ -10,12 +10,9 @@ build:
   config:
     APP_NAME: TaskManager
     APP_ENV: local
-    APP_KEY: base64:jLOSaC2Z5KsfMX0pdiAzZsThknUwbseQZbxGrWaMeH4=
     APP_DEBUG: true
     APP_URL: http://localhost
-
     LOG_CHANNEL: stack
-
     DB_CONNECTION: mysql
     DB_HOST: db
     DB_PORT: 3306
