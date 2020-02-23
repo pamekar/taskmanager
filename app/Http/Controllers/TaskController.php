@@ -44,7 +44,18 @@ class TaskController extends Controller
      */
     public function store(StoreTask $request)
     {
+        $task = new Task();
+        $task->title = $request->input('title');
+        $task->description = $request->input('description', null);
+        $task->is_compulsory = false;
+        $task->user_id = Auth::id();
+        $task->start_at = $request->input('start_at', null);
+        $task->end_at = $request->input('end_at', null);
+        $task->save();
 
+        if ($request->isJson()) {
+            return response()->json($task);
+        }
     }
 
     /**
