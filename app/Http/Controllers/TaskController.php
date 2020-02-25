@@ -21,7 +21,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Auth::user()->tasks;
-        if (Request::capture()->isXmlHttpRequest()) {
+        if (Request::capture()->acceptsJson()) {
             return response()->json($tasks);
         }
     }
@@ -53,8 +53,8 @@ class TaskController extends Controller
         $task->end_at = $request->input('end_at', null);
         $task->save();
 
-        if ($request->isJson()) {
-            return response()->json($task);
+        if ($request->acceptsJson()) {
+            return response()->json($task, 201);
         }
     }
 
@@ -67,7 +67,7 @@ class TaskController extends Controller
     public function show($id)
     {
         $task = Auth::user()->tasks()->where('task_id', $id)->first();
-        if (Request::capture()->isXmlHttpRequest()) {
+        if (Request::capture()->acceptsJson()) {
             return $task;
         }
     }
@@ -108,9 +108,10 @@ class TaskController extends Controller
         }
         $task->save();
 
-        if (Request::capture()->isXmlHttpRequest()) {
+        if (Request::capture()->acceptsJson() ) {
             return response()->json($task);
         }
+
     }
 
     /**
@@ -121,6 +122,12 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $task = Task::whereId($id)->personal()->firstOrFail();
+
+        $task->delete();
+        if (Request::capture()->acceptsJson()) {
+            return response()->json([],204);
+        }
+
     }
 }
