@@ -21,7 +21,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Auth::user()->tasks;
-        if (Request::capture()->acceptsJson()) {
+        if (Request::capture()->is('api/*')) {
             return response()->json($tasks);
         }
     }
@@ -67,7 +67,7 @@ class TaskController extends Controller
     public function show($id)
     {
         $task = Auth::user()->tasks()->where('task_id', $id)->first();
-        if (Request::capture()->acceptsJson()) {
+        if (Request::capture()->is('api/*')) {
             return $task;
         }
     }
@@ -108,7 +108,7 @@ class TaskController extends Controller
         }
         $task->save();
 
-        if (Request::capture()->acceptsJson() ) {
+        if (Request::capture()->is('api/*')) {
             return response()->json($task);
         }
 
@@ -125,8 +125,8 @@ class TaskController extends Controller
         $task = Task::whereId($id)->personal()->firstOrFail();
 
         $task->delete();
-        if (Request::capture()->acceptsJson()) {
-            return response()->json([],204);
+        if (Request::capture()->is('api/*')) {
+            return response()->json([], 204);
         }
 
     }
