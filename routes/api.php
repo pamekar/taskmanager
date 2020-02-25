@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::resource('tasks', 'TaskController')->middleware('jwt.verify');
 
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'auth'
 ], function () {
     Route::post('login', 'AuthController@login');
