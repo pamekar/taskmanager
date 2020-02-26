@@ -36,15 +36,17 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('tasks.index')}}">My Tasks</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('tasks.create')}}">
-                            Create New Task
-                            <span class="iconify" data-icon="simple-line-icons:plus" data-inline="false"></span>
-                        </a>
-                    </li>
+                    @auth
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('tasks.index')}}">My Tasks</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('tasks.create')}}">
+                                Create New Task
+                                <span class="iconify" data-icon="simple-line-icons:plus" data-inline="false"></span>
+                            </a>
+                        </li>
+                    @endauth
                 </ul>
 
                 <!-- Right Side Of Navbar -->
