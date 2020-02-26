@@ -24,10 +24,10 @@ class StoreTask extends FormRequest
     public function rules()
     {
         return [
-            'title'=>'string|max:255',
-            'description'=>'nullable|string|max:255',
-            'start_at'=>'nullable|date',
-            'end_at'=>'nullable|date'
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'start_at' => 'nullable|date',
+            'end_at' => 'nullable|date'
         ];
     }
 }

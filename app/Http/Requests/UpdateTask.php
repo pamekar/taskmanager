@@ -25,7 +25,7 @@ class UpdateTask extends FormRequest
     {
         return [
             'title' => 'string|max:255',
-            'description' => 'string|max:255',
+            'description' => 'string',
             'start_at' => 'nullable|date',
             'end_at' => 'nullable|date'
         ];
