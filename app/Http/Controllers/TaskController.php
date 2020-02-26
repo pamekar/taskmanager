@@ -18,12 +18,13 @@ class TaskController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $tasks = Auth::user()->tasks;
-        if (Request::capture()->is('api/*')) {
+        if ($request->is('api/*')) {
             return response()->json($tasks);
         }
+        return view('tasks.index', compact('tasks'));
     }
 
     /**
@@ -33,7 +34,7 @@ class TaskController extends Controller
      */
     public function create()
     {
-        //
+        return view('tasks.create');
     }
 
     /**
@@ -53,23 +54,30 @@ class TaskController extends Controller
         $task->end_at = $request->input('end_at', null);
         $task->save();
 
-        if ($request->acceptsJson()) {
+        // Assign task to active user
+        Auth::user()->tasks()->attach($task->id, ['status' => 'pending']);
+
+        if ($request->is('api/*')) {
             return response()->json($task, 201);
         }
+
+        return redirect(route('tasks.show', $task->id))->with(['status' => "'$task->title' was created successfully"]);
     }
 
     /**
      * Display the specified resource.
      *
+     * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $task = Auth::user()->tasks()->where('task_id', $id)->first();
-        if (Request::capture()->is('api/*')) {
+        $task = Auth::user()->tasks()->where('task_id', $id)->firstOrFail();
+        if ($request->is('api/*')) {
             return $task;
         }
+        return view('tasks.show', compact('task'));
     }
 
     /**
@@ -80,7 +88,11 @@ class TaskController extends Controller
      */
     public function edit($id)
     {
-        //
+        $task = Auth::user()->tasks()->where('task_id', $id)->first();
+        if (Request::capture()->is('api/*')) {
+            return $task;
+        }
+        return view('tasks.edit', compact('task'));
     }
 
     /**
@@ -108,26 +120,38 @@ class TaskController extends Controller
         }
         $task->save();
 
-        if (Request::capture()->is('api/*')) {
+        if ($request->is('api/*')) {
             return response()->json($task);
         }
-
+        return redirect(route('tasks.show', $task->id))->with(['status' => "'$task->title'' was updated successfully"]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $task = Task::whereId($id)->personal()->firstOrFail();
+        $task = Task::whereId($id)->personal()->first();
 
-        $task->delete();
-        if (Request::capture()->is('api/*')) {
-            return response()->json([], 204);
+        if ($task) {
+            $task->users()->detach();
+            $task->delete();
+        } else {
+            $task = Task::find($id);
+            $user = $task->users()->where('users.id', Auth::id())->firstOrFail();
+            abort_if($task->is_compuslory ?? false, 403, "You can't delete a compulsory task.");
+
+            $task->users()->detach(Auth::id());
         }
 
+        if ($request->is('api/*')) {
+            return response()->json(true, 204);
+        }
+
+        return redirect(route('tasks.index'))->with(['status' => "'$task->title' was deleted successfully"]);
     }
 }
