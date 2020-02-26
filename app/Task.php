@@ -15,4 +15,16 @@ class Task extends Model
     {
         $query->where('user_id', Auth::id());
     }
+
+    public function author()
+    {
+        return $this->belongsTo('App\User','user_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User', 'task_user')->orderBy('created_at', 'desc')
+            ->withPivot('task_id', 'user_id', 'status')->withTimestamps()
+            ->as('meta');
+    }
 }
