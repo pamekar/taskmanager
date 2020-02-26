@@ -62,7 +62,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function tasks()
     {
-        return $this->belongsToMany('App\Task', 'task_user')
+        return $this->belongsToMany('App\Task', 'task_user')->orderBy('created_at', 'desc')
             ->withPivot('task_id', 'user_id', 'status')->withTimestamps()
             ->as('meta');
     }
