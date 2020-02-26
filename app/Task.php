@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class Task extends Model
 {
     use SoftDeletes;
+    protected $dates = ['created_at', 'updated_at', 'start_at', 'end_at'];
 
     public function scopePersonal($query)
     {
