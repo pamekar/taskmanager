@@ -24,7 +24,7 @@
         @enderror
     </div>
     <div class="row">
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4 col-sm-6">
             <label for="start_at">Start date</label>
             <input type="date" class="form-control @error('start_at') is-invalid @enderror" name="start_at"
                    id="start_at" value="{{$task->start_at?$task->start_at->format('Y-m-d'):null}}">
@@ -34,7 +34,17 @@
                 </span>
             @enderror
         </div>
-        <div class="form-group col-md-6">
+        <div class="form-group col-md-4 col-sm-6">
+            <label for="end_at">End date</label>
+            <input type="date" class="form-control @error('end_at') is-invalid @enderror" name="end_at"
+                   id="end_at" value="{{$task->end_at?$task->end_at->format('Y-m-d'):null}}">
+            @error('end_at')
+            <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+        <div class="form-group col-md-4 col-sm-6">
             <label for="status">Status</label>
             <select class="form-control @error('start_at') is-invalid @enderror" name="status" id="status">
                 <option>pending</option>
@@ -42,16 +52,6 @@
                 <option>completed</option>
             </select>
             @error('status')
-            <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
-            @enderror
-        </div>
-        <div class="form-group col-md-6">
-            <label for="end_at">End date</label>
-            <input type="date" class="form-control @error('end_at') is-invalid @enderror" name="end_at"
-                   id="end_at" value="{{$task->end_at?$task->end_at->format('Y-m-d'):null}}">
-            @error('end_at')
             <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
                 </span>
