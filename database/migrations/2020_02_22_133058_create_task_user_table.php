@@ -17,7 +17,7 @@ class CreateTaskUserTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('task_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('status');
+            $table->enum('status',['pending','active','completed']);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
