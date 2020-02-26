@@ -118,6 +118,10 @@ class TaskController extends Controller
         if (isset($request->end_at)) {
             $task->end_at = $request->input('end_at');
         }
+        if (isset($request->status)) {
+            $task->users()->updateExistingPivot(Auth::id(), ['status' => $request->input('status')]);
+        }
+
         $task->save();
 
         if ($request->is('api/*')) {

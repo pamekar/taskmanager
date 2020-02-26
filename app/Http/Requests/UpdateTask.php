@@ -27,7 +27,8 @@ class UpdateTask extends FormRequest
             'title' => 'string|max:255',
             'description' => 'string',
             'start_at' => 'nullable|date',
-            'end_at' => 'nullable|date'
+            'end_at' => 'nullable|date',
+            'status' => 'in:pending,active,completed'
         ];
     }
 }

@@ -59,9 +59,14 @@
                                 <tr>
                                     <th scope="col">Status</th>
                                     <td>
-                                        <h4><span class="badge badge-{{$badgeStatus[$task->meta->status]??"danger"}}">
+                                        @php
+                                            $badgeStatus=['pending'=>'warning', 'active'=>'primary','completed'=>'success'];
+                                        @endphp
+                                        <h4>
+                                            <span class="badge badge-{{$badgeStatus[$task->meta->status]??"danger"}}">
                                                 {{$task->meta->status}}
-                                                </span></h4>
+                                            </span>
+                                        </h4>
                                     </td>
                                 </tr>
                                 <tr>
